@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube → Gemini Summary — Options</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main>
+    <h1>Summary prompt</h1>
+    <p class="hint">
+      This is the instruction Gemini gets when you click the toolbar button.
+      The video’s <strong>title and link are added automatically</strong> — you
+      don’t need to include them.
+    </p>
+    <textarea id="prompt" spellcheck="false" aria-label="Summary prompt"></textarea>
+    <div class="actions">
+      <button id="save" type="button">Save</button>
+      <button id="reset" type="button" class="secondary">Reset to default</button>
+      <span id="status" role="status" aria-live="polite"></span>
+    </div>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
