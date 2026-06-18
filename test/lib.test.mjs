@@ -70,10 +70,15 @@ test('stripTitle leaves a clean title alone', () => {
 });
 
 test('buildPrompt appends title and url', () => {
-  const out = buildPrompt('Summarize.', 'My Video', CANON);
-  assert.match(out, /^Summarize\./);
-  assert.match(out, /Video: My Video/);
+  const out = buildPrompt('Summarize the video:', 'My Video', CANON);
+  assert.match(out, /^Summarize the video:/);
+  assert.match(out, /My Video/);
   assert.ok(out.includes(CANON));
+});
+
+test('buildPrompt puts the title line directly above the url', () => {
+  const out = buildPrompt('Summarize the video:', 'My Video', CANON);
+  assert.ok(out.endsWith(`My Video\n${CANON}`));
 });
 
 test('buildPrompt falls back to default when instructions empty', () => {
@@ -82,7 +87,10 @@ test('buildPrompt falls back to default when instructions empty', () => {
 });
 
 test('buildPrompt without a title still includes the url', () => {
-  const out = buildPrompt('Summarize.', '', CANON);
-  assert.ok(out.includes(CANON));
-  assert.ok(!out.includes('Video: '));
+  const out = buildPrompt('Summarize the video:', '', CANON);
+  assert.ok(out.endsWith(`\n\n${CANON}`));
+});
+
+test('DEFAULT_PROMPT is the brief one-liner', () => {
+  assert.equal(DEFAULT_PROMPT, 'Summarize the video:');
 });

@@ -1,16 +1,9 @@
 // Pure helpers shared by the service worker, the options page, and the tests.
 // No DOM, no chrome.* — keep it import-safe for `node --test`.
 
-export const DEFAULT_PROMPT = `Summarize this YouTube video for me.
-
-Give me:
-1. A one-sentence TL;DR.
-2. The key points as 5-10 bullets, in the order they're presented.
-3. Any actionable steps, tips, or takeaways.
-4. Notable quotes, numbers, or claims worth remembering.
-
-Be concise, skip filler, and preserve step order for tutorials. Use the video
-itself if you can access it; otherwise use its transcript and title.`;
+// Brief on purpose: let Gemini pick the structure — it reads better than a
+// heavily prescribed format. Edit it in the options page.
+export const DEFAULT_PROMPT = `Summarize the video:`;
 
 // YouTube video ids are exactly 11 url-safe chars.
 const VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
@@ -65,6 +58,6 @@ export function stripTitle(title) {
 // the user's saved instructions never have to remember them.
 export function buildPrompt(instructions, title, url) {
   const body = (instructions || DEFAULT_PROMPT).trim();
-  const label = title ? `Video: ${title}\n${url}` : url;
-  return `${body}\n\n${label}`;
+  const tail = title ? `${title}\n${url}` : url;
+  return `${body}\n\n${tail}`;
 }
