@@ -45,18 +45,13 @@ fallback, auto-send, click = instant + separate options page).
 5. **`chrome.storage.session` access widened** to TRUSTED_AND_UNTRUSTED so the
    content script can read the stashed prompt (otherwise it's worker-only).
 
-## Queued for your return (NOT done — needs you)
-1. **Load-unpacked full E2E** (can't be automated — `chrome://extensions` is a
-   restricted page): chrome://extensions → Developer mode → Load unpacked → this
-   folder. Then open a real YouTube video, click the icon, confirm Gemini opens +
-   prompt filled + **sent** + summary generates. Also test: non-YouTube tab shows
-   the `YT?` badge; options Save/Reset round-trips.
-2. **Push the repo** (you chose local-only). When ready:
-   ```bash
-   cd /Users/yili/work/Projects/yt-gemini-summary
-   gh repo create wizdes/yt-gemini-summary --private --source=. --push
-   ```
+## Resolved (2026-06-17)
+1. **Load-unpacked full E2E** — ✅ verified working by Yi: loaded unpacked, clicked
+   the icon on a real video, Gemini opened and produced the summary.
+2. **Push** — ✅ pushed to private `github.com/wizdes/yt-gemini-summary`.
+3. **Packaging** — added `tools/pack.sh` → `dist/yt-gemini-summary.zip` (Web Store)
+   + signed `.crx`; `key.pem` gitignored.
 
 ## Open / nice-to-have (not built, v1 out of scope)
 - Reuse an existing Gemini tab instead of opening a new one each click.
-- Web Store packaging; Firefox port; multiple saved prompt presets.
+- Chrome Web Store listing; Firefox port; multiple saved prompt presets.
