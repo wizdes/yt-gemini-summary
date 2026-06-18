@@ -76,3 +76,21 @@ python3 tools/make_icons.py   # regenerate icons
 `lib.js` holds the pure, testable logic (URL canonicalization, prompt building,
 the default prompt) and is shared by the service worker, the options page, and the
 tests.
+
+## Package for distribution
+
+```bash
+bash tools/pack.sh
+```
+
+Produces (in `dist/`, gitignored):
+
+- `yt-gemini-summary.zip` — upload this to the **Chrome Web Store** (manifest at the
+  zip root, runtime files only).
+- `yt-gemini-summary.crx` — a **signed package** for self-distribution / sideloading.
+
+The first run creates `key.pem` (the signing key) and reuses it after, so the
+extension ID stays stable across rebuilds. `key.pem`, `dist/`, and `*.crx` are
+gitignored — **never commit the key.** Note: Chrome blocks `.crx` files installed
+outside the Web Store for normal users, so for everyday use either load unpacked or
+publish to the Web Store with the `.zip`.

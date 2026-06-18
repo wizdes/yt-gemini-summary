@@ -1,3 +1,8 @@
 node_modules/
 .DS_Store
 *.log
+
+# Build artifacts + signing key (never commit the key)
+dist/
+*.crx
+*.pem
