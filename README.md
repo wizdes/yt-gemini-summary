@@ -19,22 +19,35 @@ Ships with a strong default prompt; you can edit it in the options page.
 
 You must be **signed into Gemini** in the same browser for auto-fill to work.
 
+After install, a welcome tab opens telling you how to **pin** the extension to
+your toolbar (Chrome has no API to pin it automatically). Pin it via the puzzle
+🧩 icon → the pin next to "YouTube → Gemini Summary".
+
 ## Use
 
-- On any YouTube video, click the toolbar button → a Gemini tab opens, the prompt
-  is typed in and submitted, and the summary starts generating.
-- Not on a YouTube video? The button shows a small `YT?` badge and does nothing.
+- On a YouTube video, the toolbar icon shows a small **green dot** in the corner —
+  that means it's ready. Click it → a Gemini tab opens, the prompt is typed in and
+  submitted, and the summary starts generating.
+- Not on a YouTube video? No green dot; clicking shows a brief `YT?` badge and
+  does nothing.
 - Edit the prompt: right-click the icon → **Options** (or `chrome://extensions` →
-  Details → Extension options). The video title + link are appended automatically,
-  so your prompt never needs to mention them.
+  Details → Extension options). The default is just `Summarize the video:` (kept
+  brief so Gemini picks the structure). The video title + link are appended
+  automatically, so your prompt never needs to mention them.
 
 ## How it works
 
+- `content-youtube.js` runs on YouTube and reports the page URL to the service
+  worker (on load and on YouTube's in-app navigations). The worker lights the green
+  "ready" badge when it's a video.
 - `background.js` (service worker) reads the active tab's URL on click,
   canonicalizes it to `https://www.youtube.com/watch?v=ID`, builds the prompt,
   stashes it in `chrome.storage.session`, and opens `gemini.google.com/app`.
 - `content-gemini.js` runs on Gemini, reads the stashed prompt, types it into the
   input box, and clicks send.
+
+The icon is a brain + play triangle (intentionally not a red rounded square, to
+avoid looking like the YouTube logo); regenerate it with `python3 tools/make_icons.py`.
 
 ### The one fragile part
 
