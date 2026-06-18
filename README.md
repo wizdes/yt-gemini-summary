@@ -38,8 +38,10 @@ your toolbar (Chrome has no API to pin it automatically). Pin it via the puzzle
 ## How it works
 
 - `content-youtube.js` runs on YouTube and reports the page URL to the service
-  worker (on load and on YouTube's in-app navigations). The worker lights the green
-  "ready" badge when it's a video.
+  worker (on load and on YouTube's in-app navigations). The worker swaps the
+  toolbar icon to the `-on` variant (a small green dot baked into the corner) when
+  it's a video, so the "ready" indicator is a subtle circle rather than Chrome's
+  big rectangular badge.
 - `background.js` (service worker) reads the active tab's URL on click,
   canonicalizes it to `https://www.youtube.com/watch?v=ID`, builds the prompt,
   stashes it in `chrome.storage.session`, and opens `gemini.google.com/app`.

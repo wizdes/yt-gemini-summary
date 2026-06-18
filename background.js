@@ -31,30 +31,25 @@ async function flashBadge(tabId, text) {
   }
 }
 
-// Green "ready, click me" badge on the toolbar icon for the tabs that are on a
-// YouTube video. Badge state is per-tab, so it only shows on video tabs.
-async function setReadyBadge(tabId, ready) {
+// Toolbar icon variants: plain, and one with a small green "ready" dot baked in.
+// We swap the whole icon per-tab (Chrome's native badge can't be made a subtle
+// circle), so the dot only shows on tabs that are on a YouTube video.
+const ICON_OFF = { 16: 'icons/icon16.png', 48: 'icons/icon48.png', 128: 'icons/icon128.png' };
+const ICON_ON = { 16: 'icons/icon16-on.png', 48: 'icons/icon48-on.png', 128: 'icons/icon128-on.png' };
+
+async function setReadyIcon(tabId, ready) {
   try {
-    if (ready) {
-      await chrome.action.setBadgeBackgroundColor({ tabId, color: '#1e8e3e' });
-      // Same text + background colour renders as a solid green dot.
-      if (chrome.action.setBadgeTextColor) {
-        await chrome.action.setBadgeTextColor({ tabId, color: '#1e8e3e' });
-      }
-      await chrome.action.setBadgeText({ tabId, text: '●' });
-    } else {
-      await chrome.action.setBadgeText({ tabId, text: '' });
-    }
+    await chrome.action.setIcon({ tabId, path: ready ? ICON_ON : ICON_OFF });
   } catch {
-    // tab gone; ignore.
+    // tab gone / icon missing; ignore.
   }
 }
 
-// The YouTube content script reports the current URL; light the badge when it's
-// a video we can summarize.
+// The YouTube content script reports the current URL; show the green dot when
+// it's a video we can summarize.
 chrome.runtime.onMessage.addListener((msg, sender) => {
   if (msg?.type === 'YT_URL' && sender.tab?.id != null) {
-    setReadyBadge(sender.tab.id, !!canonicalizeYouTubeUrl(msg.url));
+    setReadyIcon(sender.tab.id, !!canonicalizeYouTubeUrl(msg.url));
   }
 });
 

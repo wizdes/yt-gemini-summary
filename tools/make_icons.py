@@ -40,6 +40,13 @@ SEAM_HALF = 0.022      # half-width of the center seam (normalized)
 GROOVE_HALF = 0.020    # half-thickness of a groove ring (normalized)
 DARK = 0.70            # how much to darken seam/groove pixels
 
+# "Ready" status dot baked into the -on icon variant. Subtle round green dot in
+# the lower-right, with a thin transparent moat so it reads as a separate dot.
+DOT = (1, 173, 78)     # sampled from the reference (#01AD4E)
+DOT_CX, DOT_CY = 0.79, 0.79
+DOT_R = 0.155          # radius (normalized) → ~0.31 diameter
+DOT_MOAT = 0.035       # transparent ring thickness around the dot
+
 
 def in_brain(x, y, w, h):
     for fx, fy, fr in BUMPS:
@@ -73,8 +80,15 @@ def _is_dark(x, y, w, h):
     return False
 
 
-def subpixel(x, y, w, h):
+def subpixel(x, y, w, h, dot=False):
     # Premultiplied (R, G, B, A) for one supersample point.
+    if dot:
+        m = min(w, h)
+        d = ((x - DOT_CX * w) ** 2 + (y - DOT_CY * h) ** 2) ** 0.5
+        if d <= DOT_R * m:
+            return (DOT[0], DOT[1], DOT[2], 255)   # the dot, drawn on top
+        if d <= (DOT_R + DOT_MOAT) * m:
+            return (0, 0, 0, 0)                     # transparent moat (knockout)
     if in_triangle(x, y, w, h):
         return (FG[0], FG[1], FG[2], 255)
     if in_brain(x, y, w, h):
@@ -88,7 +102,7 @@ def subpixel(x, y, w, h):
     return (0, 0, 0, 0)
 
 
-def render(size):
+def render(size, dot=False):
     big = size * SS
     out = bytearray()
     n = SS * SS
@@ -98,7 +112,7 @@ def render(size):
             ar = ag = ab = aa = 0
             for sy in range(SS):
                 for sx in range(SS):
-                    cr, cg, cb, a = subpixel(x * SS + sx, y * SS + sy, big, big)
+                    cr, cg, cb, a = subpixel(x * SS + sx, y * SS + sy, big, big, dot)
                     ar += cr * a // 255
                     ag += cg * a // 255
                     ab += cb * a // 255
@@ -136,8 +150,10 @@ def main():
     out_dir = os.path.join(here, '..', 'icons')
     os.makedirs(out_dir, exist_ok=True)
     for size in (16, 48, 128):
-        write_png(os.path.join(out_dir, f'icon{size}.png'), size, render(size))
+        write_png(os.path.join(out_dir, f'icon{size}.png'), size, render(size, dot=False))
         print(f'wrote icons/icon{size}.png')
+        write_png(os.path.join(out_dir, f'icon{size}-on.png'), size, render(size, dot=True))
+        print(f'wrote icons/icon{size}-on.png')
 
 
 if __name__ == '__main__':
