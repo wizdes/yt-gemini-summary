@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "description": "One click to summarize the YouTube video you're watching in Gemini.",
   "permissions": ["storage", "activeTab", "clipboardWrite"],
-  "host_permissions": ["https://gemini.google.com/*"],
+  "host_permissions": [
+    "https://gemini.google.com/*",
+    "https://www.youtube.com/*",
+    "https://m.youtube.com/*"
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
@@ -17,6 +21,11 @@
     {
       "matches": ["https://gemini.google.com/*"],
       "js": ["content-gemini.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.youtube.com/*", "https://m.youtube.com/*"],
+      "js": ["content-youtube.js"],
       "run_at": "document_idle"
     }
   ],

@@ -23,13 +23,48 @@ chrome.runtime.onStartup?.addListener(ensureSessionAccess);
 
 async function flashBadge(tabId, text) {
   try {
-    await chrome.action.setBadgeBackgroundColor({ color: '#E62117' });
+    await chrome.action.setBadgeBackgroundColor({ tabId, color: '#E62117' });
     await chrome.action.setBadgeText({ tabId, text });
     setTimeout(() => chrome.action.setBadgeText({ tabId, text: '' }).catch(() => {}), 2500);
   } catch {
     // tab may be gone; ignore.
   }
 }
+
+// Green "ready, click me" badge on the toolbar icon for the tabs that are on a
+// YouTube video. Badge state is per-tab, so it only shows on video tabs.
+async function setReadyBadge(tabId, ready) {
+  try {
+    if (ready) {
+      await chrome.action.setBadgeBackgroundColor({ tabId, color: '#1e8e3e' });
+      // Same text + background colour renders as a solid green dot.
+      if (chrome.action.setBadgeTextColor) {
+        await chrome.action.setBadgeTextColor({ tabId, color: '#1e8e3e' });
+      }
+      await chrome.action.setBadgeText({ tabId, text: '●' });
+    } else {
+      await chrome.action.setBadgeText({ tabId, text: '' });
+    }
+  } catch {
+    // tab gone; ignore.
+  }
+}
+
+// The YouTube content script reports the current URL; light the badge when it's
+// a video we can summarize.
+chrome.runtime.onMessage.addListener((msg, sender) => {
+  if (msg?.type === 'YT_URL' && sender.tab?.id != null) {
+    setReadyBadge(sender.tab.id, !!canonicalizeYouTubeUrl(msg.url));
+  }
+});
+
+// First install: Chrome has no API to pin an extension, so open a short page
+// that tells the user how to pin it and confirms it's ready.
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') {
+    chrome.tabs.create({ url: chrome.runtime.getURL('welcome.html') }).catch(() => {});
+  }
+});
 
 chrome.action.onClicked.addListener(async (tab) => {
   const canonical = canonicalizeYouTubeUrl(tab?.url || '');

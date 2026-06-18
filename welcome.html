@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube → Gemini Summary — you're set</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font: 15px/1.55 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: Canvas;
+      color: CanvasText;
+      padding: 32px;
+    }
+    .card {
+      max-width: 460px;
+      text-align: center;
+    }
+    img { width: 72px; height: 72px; }
+    h1 { font-size: 20px; margin: 16px 0 4px; }
+    p.sub { color: #5f6368; margin: 0 0 24px; }
+    ol {
+      text-align: left;
+      margin: 0 auto 20px;
+      padding-left: 22px;
+      max-width: 400px;
+    }
+    li { margin: 8px 0; }
+    .pin {
+      display: inline-block;
+      padding: 2px 7px;
+      border: 1px solid #d2d6dc;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #1e8e3e;
+      vertical-align: middle;
+    }
+    .tip {
+      background: color-mix(in srgb, CanvasText 6%, Canvas);
+      border-radius: 10px;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img src="icons/icon128.png" alt="" />
+    <h1>You’re set.</h1>
+    <p class="sub">One click turns the YouTube video you’re watching into a Gemini summary.</p>
+
+    <ol>
+      <li>Click the <span class="pin">🧩</span> extensions (puzzle) icon at the top-right of Chrome.</li>
+      <li>Find <strong>YouTube → Gemini Summary</strong> and click its pin icon so it lives on your toolbar.</li>
+      <li>Open any YouTube video — the toolbar icon shows a green dot <span class="dot"></span> when it’s ready.</li>
+      <li>Click it. Gemini opens and starts summarizing.</li>
+    </ol>
+
+    <div class="tip">
+      Want a different prompt? Right-click the icon → <strong>Options</strong>. The
+      video’s title and link are added automatically.
+    </div>
+  </main>
+</body>
+</html>
