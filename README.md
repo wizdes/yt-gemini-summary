@@ -1,4 +1,4 @@
-# YouTube → Gemini Summary
+# YouTube Summary with Gemini: Open Source One-Click Summarizer
 
 A tiny Chrome extension (Manifest V3). When you're watching a YouTube video,
 click the toolbar button and it opens **Gemini** with a summary prompt already
@@ -21,7 +21,7 @@ You must be **signed into Gemini** in the same browser for auto-fill to work.
 
 After install, a welcome tab opens telling you how to **pin** the extension to
 your toolbar (Chrome has no API to pin it automatically). Pin it via the puzzle
-🧩 icon → the pin next to "YouTube → Gemini Summary".
+🧩 icon → the pin next to "YouTube Summary with Gemini: Open Source One-Click Summarizer".
 
 ## Use
 

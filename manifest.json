@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "YouTube → Gemini Summary",
+  "name": "YouTube Summary with Gemini: Open Source One-Click Summarizer",
   "version": "1.0.0",
   "description": "One click to summarize the YouTube video you're watching in Gemini.",
   "permissions": ["storage", "activeTab", "clipboardWrite"],
