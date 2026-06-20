@@ -78,3 +78,24 @@ button:hover { filter: brightness(0.96); }
   color: #1e8e3e;
   font-weight: 600;
 }
+
+.about {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.about .about-name { color: CanvasText; }
+
+.about a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about a:hover { text-decoration: underline; }
