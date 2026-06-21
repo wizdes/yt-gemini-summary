@@ -88,6 +88,14 @@ gitignored — **never commit the key.** Note: Chrome blocks `.crx` files instal
 outside the Web Store for normal users, so for everyday use either load unpacked
 or publish to the Web Store with the `.zip`.
 
+## Privacy
+
+The extension sends **no data to the developer** and has **no analytics, tracking,
+or ads**. The only thing transmitted is the prompt you send to **your own** Gemini
+session — the current video's title and link are placed into that prompt for you.
+Your saved prompt and a short-lived session handoff live only on your device. Full
+details: [PRIVACY.md](PRIVACY.md).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
